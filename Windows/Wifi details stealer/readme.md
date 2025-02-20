@@ -7,5 +7,5 @@ This script will take a while to run as there's a lot of typing and it could def
 Planned improvements: 
 
 - Auto detect drive letter
-- Move main commands in to .bat or .ps1 file
+- Move main commands in to .ps1 file
 
