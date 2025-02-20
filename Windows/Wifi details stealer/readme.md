@@ -4,3 +4,8 @@ The file will be named (ComputerName)_(Date)_(Time)_Log.txt
 
 This script will take a while to run as there's a lot of typing and it could definitely be improved.
 
+Planned improvements: 
+
+- Auto detect drive letter
+- Move main commands in to .bat or .ps1 file
+
